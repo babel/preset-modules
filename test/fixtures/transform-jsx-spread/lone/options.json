@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    "../../../../lib/plugins/transform-jsx-spread",
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ]
+}

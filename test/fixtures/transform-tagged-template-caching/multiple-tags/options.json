@@ -1,0 +1,5 @@
+{
+  "plugins": [
+    "../../../../lib/plugins/transform-tagged-template-caching"
+  ]
+}

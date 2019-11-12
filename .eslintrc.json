@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "plugins": ["prettier", "import"],
+  "extends": "babel",
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "node": true
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.js"],
+      "rules": {
+        "import/no-extraneous-dependencies": "error",
+        "guard-for-in": "error"
+      }
+    },
+    {
+      "files": [
+        "test/**/*.js",
+        "src/*/test/**/*.js",
+        "**/*.test.js",
+        "**/*.spec.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    },
+    {
+      "files": ["src/plugins/*/index.js"],
+      "rules": {
+        "eqeqeq": ["error", "always", { "null": "ignore" }]
+      }
+    }
+  ]
+}
