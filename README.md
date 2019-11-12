@@ -1,21 +1,68 @@
-# babel-preset-modules
+# `@babel/preset-modules`
 
-A carefully crafted Babel preset that targets browsers with ES Modules support.
+A Babel preset that enables async/await, Tagged Templates, arrow functions, destructured and rest parameters, and more **in all modern browsers** ([88% of traffic](https://caniuse.com/#feat=es6-module)).
 
-Use this instead of `@babel/preset-env`'s `target.esmodules` option for smaller bundle size and improved startup performance.
+It works around bugs and inconsistencies in modern JavaScript engines by converting broken syntax to the _closest non-broken modern syntax_.  Use this in place of `@babel/preset-env`'s [target.esmodules](https://babeljs.io/docs/en/babel-preset-env#targetsesmodules) option for smaller bundle size and improved performance.
 
 ### Features Supported
 
-- JSX uses native Object Spread properties for JSX spread attributes instead of a helper.
+- JSX uses native Object Spread when spreading props instead of a helper.
 - Default, destructured and optional parameters are all natively supported.
 - Tagged Templates are fully supported, patched for Safari 10+ and Edge 16+.
+- async/await is supported without being transpiled to generators.
+- Function name inference works as expected, including Arrow Functions.
 
-### How?
+### Installation & Usage
 
-`@babel/preset-env` is great, since it lets you define which Babel features are needed based on a browser support target.
-However, in order to make that plumbing work the preset has to group all of the possible JavaScript syntax features you might be using into fairly large groups. It enables or disables these groups based on the browser support target you specify, including `targets.esmodules` which is effectively an alias for the set of browsers that support ES Modules.
+Install the preset from [npm](https://www.npmjs.com/package/@babel/preset-modules):
 
-The problem is that one browser that supports ES Modules can spoil a whole set of features, since they're all grouped together.
+```sh
+npm install @babel/preset-modules --save-dev
+```
+
+To use the preset, add it to your [Babel Configuration](https://babeljs.io/docs/en/configuration):
+
+```js
+{
+  "presets": [
+    "@babel/preset-modules"
+  ]
+}
+```
+
+If you're implementing the module/nomodule pattern, your configuration might look something like this:
+
+```js
+{
+  "env": {
+    "modern": {
+      "presets": [
+        "@babel/preset-modules"
+      ]
+    },
+    "legacy": {
+      "presets": [
+        "@babel/preset-env"
+      ]
+    }
+  }
+}
+```
+
+### Options
+
+There's a single Boolean `loose` option, which defaults to `false`. Passing `true` further reduces output size.
+
+The `loose` setting turns off a rarely-needed function name workaround for older versions of Edge. If you're not relying on `Function.prototype.name`, it's worth enabling loose mode.
+
+### How does it work?
+
+Babel’s `preset-env` is great, since it lets you define which Babel features are needed based on a browser support target. In order to make that plumbing work automatically, the preset has configuration that groups all of the new JavaScript syntax features into collections of related syntax transforms. These groups are fairly large, for example "function arguments" includes destructured, default and rest parameters. The groupings come from the fact that Babel’s transforms often rely on other transforms, so they can’t always be applied in isolation.
+
+From this grouping information, Babel enables or disables each group based on the browser support target you specify to preset-env’s [targets](https://babeljs.io/docs/en/babel-preset-env#targets) option. For modern output, the [targets.esmodules](https://babeljs.io/docs/en/babel-preset-env#targetsesmodules) option is effectively an alias for the set of browsers that support ES Modules: Edge 16+, Safari 10.1+, Firefox 60+ and Chrome 61+.
+
+Here's the problem: if any version of any browser in that list contains a bug triggered by modern syntax, the only solution we have is to enable the corresponding transform group that fixes that bug. This means that fundamentally, preset-env converts code to ES5 in order to get around syntax bugs in ES2017. Since that's the only solution at our disposal, eventually it becomes overused.
+
 For example, all of the new syntax features relating to function parameters are grouped into the same Babel plugin (`@babel/plugin-transform-function-parameters`). That means because Edge 16 & 17 support ES Modules but have a bug related to parsing shorthand destructured parameters with default values within arrow functions, all functions get compiled from the new compact argument syntaxes down to ES5:
 
 ```js
@@ -29,7 +76,7 @@ function foo({ a = 1, b }, ...args) {}
 const foo = ({ a: a = 1 }) => {};
 ```
 
-In fact, there are 23 syntax improvements for function parameters in ES2017, and only one of them is broken in ES Modules-supporting browsers. It seems like a shame to transpile all those great features down to ES5 just for Edge 16, right? I thought so.
+In fact, there are 23 syntax improvements for function parameters in ES2017, and only one of them is broken in ES Modules-supporting browsers. It seems unfortunate to transpile all those great features down to ES5 just for one browser!
 
 This plugin takes a different approach than we've historically taken with JavaScript: it transpiles the broken syntax to the closest _non-broken modern syntax_. In the above case, here's what is generated to fix all ES Modules-supporting browsers:
 
@@ -47,7 +94,7 @@ const foo = ({ a: a = 1 }, b = 2, ...args) => [a,b,args];
 
 That output works in all ES Modules-supporting browsers, and is only **59 bytes** minified & gzipped.
 
-> Compare this to `@babel/preset-env`'s `targets.esmodules` output for the above, at **147 bytes** minified & gzipped:
+> Compare this to `@babel/preset-env`'s `targets.esmodules` output (**147 bytes** minified & gzipped):
 >
 > ```js
 >const foo = function foo(_ref, b) {
@@ -67,37 +114,16 @@ That output works in all ES Modules-supporting browsers, and is only **59 bytes*
 >};
 >````
 
-The result is dramatically improved bundle size and performance, while supporting the same browsers. All from removing grouping.
-
-### Example Usage
-
-```js
-{
-  "env": {
-    "modern": {
-      "presets": ["babel-preset-modules"]
-    },
-    "legacy": {
-      "presets": {
-        ["@babel/preset-env", {
-          "targets": {
-            "browsers": ">1%, not dead"
-          }
-        }]
-      }
-    }
-  }
-}
-```
+The result is improved bundle size and performance, while supporting the same browsers.
 
 
 ### Important: Minification
 
-The output generated by this preset includes workarounds for Safari 10, however minifiers like Terser sometimes remove these workarounds.
-In order to avoid shipping broken code, it's important to tell Terser to preserve the workarounds, which can be done via the `safari10` option.
+The output generated by this preset includes workarounds for Safari 10, however minifiers like Terser sometimes remove these workarounds. In order to avoid shipping broken code, it's important to tell Terser to preserve the workarounds, which can be done via the `safari10` option.
+
 It's also generally the case that minifiers are configured to output ES5 by default, so you'll want to change the output syntax to ES2017.
 
-With [Terser Node API](https://github.com/terser/terser#minify-options):
+With [Terser's Node API](https://github.com/terser/terser#minify-options):
 
 ```js
 terser.minify({
@@ -127,19 +153,5 @@ module.exports = {
 };
 ```
 
-All of the above configurations apply work for [uglify-es](https://github.com/mishoo/UglifyJS2/tree/harmony).
+All of the above configurations also apply to [uglify-es](https://github.com/mishoo/UglifyJS2/tree/harmony).
 UglifyJS (2.x and prior) does not support modern JavaScript, so it cannot be used in conjuction with this preset.
-
-
-### Bundle Size Comparison
-
-Bundling an unmodified copy of the `redux-todos` codebase.
-
-| Babel Preset / Configuration | Gzipped Bundle Size
-|-|-|
-| `babel-preset-modules` | 4.07kB
-| `@babel/preset-env` `target.esmodules` | 4.75kB
-| `@babel/preset-env` (default) | 5.33kB
-
-The code is small because no dependencies are bundled, but imagine how this scales up.
-For an app is 10x this size, would you rather ship 40kB of JS, or 53kB?

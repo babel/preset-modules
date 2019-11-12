@@ -1,7 +1,7 @@
 {
   "name": "@babel/preset-modules",
   "version": "0.1.0",
-  "description": "A Babel preset targeting modern, ES Modules-supporting browsers.",
+  "description": "A Babel preset that targets modern browsers by fixing engine bugs.",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
@@ -17,11 +17,12 @@
   },
   "keywords": [
     "babel",
+    "preset",
+    "preset-env",
     "modern",
     "modules",
     "ES Modules",
-    "mjs",
-    "transpiler"
+    "module/nomodule"
   ],
   "files": [
     "src",
