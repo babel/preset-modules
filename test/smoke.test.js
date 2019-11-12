@@ -1,4 +1,4 @@
-import presetModern from "../lib/index";
+import presetModern from "..";
 
 describe("@babel/preset-modern", () => {
   describe("smoke test", () => {

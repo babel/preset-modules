@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@babel/preset-modules should pass a smoke test 1`] = `
+"const foo = async (tag, { a: _a = 1 }, { data: { props: _props = 1 } }, ...children) => {
+  return _a;
+};
+const ignoreMe = () => {
+  const { a = 1 } = {};
+};"
+`;

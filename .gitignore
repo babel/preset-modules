@@ -1,6 +1,7 @@
 node_modules
 coverage
 lib
+.dist
 test/tmp
 .DS_Store
 *.log
