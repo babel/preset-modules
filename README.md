@@ -142,7 +142,7 @@ With [terser-webpack-plugin](https://webpack.js.org/plugins/terser-webpack-plugi
 
 ```js
 module.exports = {
-  minifier: [
+  minimizer: [
     new TerserPlugin({
       terserOptions: {
         ecma: 8,
