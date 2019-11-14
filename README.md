@@ -154,4 +154,4 @@ module.exports = {
 ```
 
 All of the above configurations also apply to [uglify-es](https://github.com/mishoo/UglifyJS2/tree/harmony).
-UglifyJS (2.x and prior) does not support modern JavaScript, so it cannot be used in conjuction with this preset.
+UglifyJS (2.x and prior) does not support modern JavaScript, so it cannot be used in conjunction with this preset.
