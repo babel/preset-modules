@@ -142,14 +142,16 @@ With [terser-webpack-plugin](https://webpack.js.org/plugins/terser-webpack-plugi
 
 ```js
 module.exports = {
-  minifier: [
-    new TerserPlugin({
-      terserOptions: {
-        ecma: 8,
-        safari10: true
-      }
-    })
-  ]
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          ecma: 8,
+          safari10: true
+        }
+      })
+    ]
+  }
 };
 ```
 
