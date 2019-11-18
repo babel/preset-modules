@@ -1,0 +1,16 @@
+{
+  "plugins": [
+    [
+      "../../../../lib/plugins/transform-jsx-spread",
+      {
+        "useSpread": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ]
+}

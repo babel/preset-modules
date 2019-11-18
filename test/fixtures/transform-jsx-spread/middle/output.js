@@ -1,5 +1,5 @@
-h("div", {
-  a: 1,
-  ...props,
+h("div", Object.assign({
+  a: 1
+}, props, {
   b: true
-});
+}));

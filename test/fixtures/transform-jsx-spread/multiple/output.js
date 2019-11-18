@@ -1,3 +1,1 @@
-h("div", { ...a,
-  ...b
-});
+h("div", Object.assign({}, a, b));
