@@ -85,7 +85,7 @@ export default ({ types: t }) => {
     visitor: {
       JSXOpeningElement(path, state) {
         const useSpread = state.opts.useSpread === true;
-        const hasSpread = path.node.attributes.some(t.isJSXSpreadAttribute);
+         const hasSpread = path.node.attributes.some(attr => t.isJSXSpreadAttribute(attr));
 
         // ignore JSX Elements without spread or with lone spread:
         if (!hasSpread || path.node.attributes.length === 1) return;
