@@ -1,3 +1,3 @@
-h("div", { ...props,
+h("div", Object.assign({}, props, {
   b: "hi"
-}, "a");
+}), "a");

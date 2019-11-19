@@ -10,11 +10,60 @@ import esutils from "esutils";
  *   h("div", { a: "1", ...b })
  */
 export default ({ types: t }) => {
-  function convertAttribute(node) {
+  // converts a set of JSXAttributes to an Object.assign() call
+  function convertAttributesAssign(attributes) {
+    const args = [];
+    for (let i = 0, current; i < attributes.length; i++) {
+      const node = attributes[i];
+      if (t.isJSXSpreadAttribute(node)) {
+        // the first attribute is a spread, avoid copying all other attributes onto it
+        if (i === 0) {
+          args.push(t.objectExpression([]));
+        }
+        current = null;
+        args.push(node.argument);
+      } else {
+        const name = getAttributeName(node);
+        const value = getAttributeValue(node);
+        if (!current) {
+          current = t.objectExpression([]);
+          args.push(current);
+        }
+        current.properties.push(t.objectProperty(name, value));
+      }
+    }
+    return t.callExpression(
+      t.memberExpression(t.identifier("Object"), t.identifier("assign")),
+      args
+    );
+  }
+
+  // Converts a JSXAttribute to the equivalent ObjectExpression property
+  function convertAttributeSpread(node) {
     if (t.isJSXSpreadAttribute(node)) {
       return t.spreadElement(node.argument);
     }
 
+    const name = getAttributeName(node);
+    const value = getAttributeValue(node);
+    return t.inherits(t.objectProperty(name, value), node);
+  }
+
+  // Convert a JSX attribute name to an Object expression property name
+  function getAttributeName(node) {
+    if (t.isJSXNamespacedName(node.name)) {
+      return t.stringLiteral(
+        node.name.namespace.name + ":" + node.name.name.name
+      );
+    }
+    if (esutils.keyword.isIdentifierNameES6(node.name.name)) {
+      return t.identifier(node.name.name);
+    }
+    return t.stringLiteral(node.name.name);
+  }
+
+  // Convert a JSX attribute value to a JavaScript expression value
+  function getAttributeValue(node) {
     let value = node.value || t.booleanLiteral(true);
 
     if (t.isJSXExpressionContainer(value)) {
@@ -28,33 +77,34 @@ export default ({ types: t }) => {
       }
     }
 
-    if (t.isJSXNamespacedName(node.name)) {
-      node.name = t.stringLiteral(
-        node.name.namespace.name + ":" + node.name.name.name
-      );
-    } else if (esutils.keyword.isIdentifierNameES6(node.name.name)) {
-      node.name.type = "Identifier";
-    } else {
-      node.name = t.stringLiteral(node.name.name);
-    }
-
-    return t.inherits(t.objectProperty(node.name, value), node);
+    return value;
   }
 
   return {
-    name: "transform-hoist-tagged-templates",
+    name: "transform-jsx-spread",
     visitor: {
-      JSXOpeningElement(path) {
-        const hasSpread = path.node.attributes.some(t.isJSXSpreadAttribute);
+      JSXOpeningElement(path, state) {
+        const useSpread = state.opts.useSpread === true;
+        const hasSpread = path.node.attributes.some(attr =>
+          t.isJSXSpreadAttribute(attr)
+        );
 
         // ignore JSX Elements without spread or with lone spread:
         if (!hasSpread || path.node.attributes.length === 1) return;
 
-        path.node.attributes = [
-          t.jsxSpreadAttribute(
-            t.objectExpression(path.node.attributes.map(convertAttribute))
-          ),
-        ];
+        if (useSpread) {
+          path.node.attributes = [
+            t.jsxSpreadAttribute(
+              t.objectExpression(
+                path.node.attributes.map(convertAttributeSpread)
+              )
+            ),
+          ];
+        } else {
+          path.node.attributes = [
+            t.jsxSpreadAttribute(convertAttributesAssign(path.node.attributes)),
+          ];
+        }
       },
     },
   };
