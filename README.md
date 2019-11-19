@@ -6,7 +6,7 @@ It works around bugs and inconsistencies in modern JavaScript engines by convert
 
 ### Features Supported
 
-- JSX uses native Object Spread when spreading props instead of a helper.
+- JSX spread attributes are compiled to Object.assign() instead of a helper.
 - Default, destructured and optional parameters are all natively supported.
 - Tagged Templates are fully supported, patched for Safari 10+ and Edge 16+.
 - async/await is supported without being transpiled to generators.
