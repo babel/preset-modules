@@ -22,8 +22,8 @@ export default declare((api, opts) => {
         path.resolve(__dirname, "./plugins/transform-edge-function-name"),
 
       // Proposals
-      "@babel/plugin-proposal-unicode-property-regex",
-      "@babel/plugin-transform-dotall-regex",
+      require.resolve("@babel/plugin-proposal-unicode-property-regex"),
+      require.resolve("@babel/plugin-transform-dotall-regex"),
     ].filter(Boolean),
   };
 });
