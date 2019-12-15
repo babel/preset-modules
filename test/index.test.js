@@ -9,6 +9,8 @@ import {
 import chalk from "chalk";
 import preset from "..";
 
+jest.setTimeout(30000);
+
 function dedent(strings, ...expr) {
   const s = strings.reduce((acc, s, i) => acc + expr[i - 1] + s);
   const dent = s.match(/^(\t| {2,})+/m)[0];
