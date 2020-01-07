@@ -4,6 +4,15 @@ A Babel preset that enables async/await, Tagged Templates, arrow functions, dest
 
 It works around bugs and inconsistencies in modern JavaScript engines by converting broken syntax to the _closest non-broken modern syntax_.  Use this in place of `@babel/preset-env`'s [target.esmodules](https://babeljs.io/docs/en/babel-preset-env#targetsesmodules) option for smaller bundle size and improved performance.
 
+This preset is only useful for browsers. You can serve the output to modern browsers while still supporting older browsers using the [module/nomodule pattern](https://philipwalton.com/articles/deploying-es2015-code-in-production-today/):
+
+```html
+<!-- transpiled with preset-modules: -->
+<script type="module" src="modern.js"></script>
+<!-- transpiled with preset-env: -->
+<script nomodule src="legacy.js"></script>
+```
+
 ### Features Supported
 
 - JSX spread attributes are compiled to Object.assign() instead of a helper.
