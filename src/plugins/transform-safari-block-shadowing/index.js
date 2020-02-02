@@ -10,23 +10,25 @@ export default function({ types: t }) {
         const kind = path.parent.kind;
         if (kind !== "let" && kind !== "const") return;
 
-        const name = path.node.id.name;
-        let scope = path.scope;
+        const bindings = t.getOuterBindingIdentifiers(path.node.id);
+        for (const name of Object.keys(bindings)) {
+          let scope = path.scope;
 
-        // ignore parent bindings (note: impossible due to let/const?)
-        if (!scope.hasOwnBinding(name)) return;
+          // ignore parent bindings (note: impossible due to let/const?)
+          if (!scope.hasOwnBinding(name)) continue;
 
-        // this only affects block bindings
-        if (t.isFunction(scope.block) || t.isProgram(scope.block)) return;
+          // this only affects block bindings
+          if (t.isFunction(scope.block) || t.isProgram(scope.block)) continue;
 
-        // check if shadowed within the nearest function/program boundary
-        while ((scope = scope.parent)) {
-          if (scope.hasOwnBinding(name)) {
-            path.scope.rename(name);
-            return;
-          }
-          if (t.isFunction(scope.block) || t.isProgram(scope.block)) {
-            return;
+          // check if shadowed within the nearest function/program boundary
+          while ((scope = scope.parent)) {
+            if (scope.hasOwnBinding(name)) {
+              path.scope.rename(name);
+              break;
+            }
+            if (t.isFunction(scope.block) || t.isProgram(scope.block)) {
+              break;
+            }
           }
         }
       },

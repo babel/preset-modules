@@ -1,29 +1,36 @@
 const a = 1;
 {
-  const a = 2;
+  const _a = 2;
 }
 a;
 {
-  let c;
+  let _c;
 }
 let c;
 
 for (;;) {
-  let c;
+  let _c2;
 }
 
 () => {
   let c;
   {
-    let c;
+    let _c3;
 
     let d;
     {
-      let c;
+      let _c4;
     }
   }
 };
 
+{
+  const {
+    a: _a2 = 1,
+    d = 2
+  } = {};
+  console.log(_a2, d);
+}
 {
   let d;
 }
@@ -31,7 +38,7 @@ for (;;) {
 (function () {
   try {
     {
-      let bar = 456;
+      let _bar = 456;
     }
     let bar = 123;
     return bar === 123;
