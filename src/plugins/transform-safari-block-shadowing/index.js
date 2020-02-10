@@ -7,8 +7,13 @@ export default function({ types: t }) {
     name: "transform-safari-block-shadowing",
     visitor: {
       VariableDeclarator(path) {
+        // the issue only affects let and const bindings:
         const kind = path.parent.kind;
         if (kind !== "let" && kind !== "const") return;
+
+        // ignore non-block-scoped bindings:
+        const block = path.scope.block;
+        if (t.isFunction(block) || t.isProgram(block)) return;
 
         const bindings = t.getOuterBindingIdentifiers(path.node.id);
         for (const name of Object.keys(bindings)) {
@@ -16,9 +21,6 @@ export default function({ types: t }) {
 
           // ignore parent bindings (note: impossible due to let/const?)
           if (!scope.hasOwnBinding(name)) continue;
-
-          // this only affects block bindings
-          if (t.isFunction(scope.block) || t.isProgram(scope.block)) continue;
 
           // check if shadowed within the nearest function/program boundary
           while ((scope = scope.parent)) {
