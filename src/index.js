@@ -25,6 +25,8 @@ export default declare((api, opts) => {
       // Proposals
       require.resolve("@babel/plugin-proposal-unicode-property-regex"),
       require.resolve("@babel/plugin-transform-dotall-regex"),
+      require.resolve("@babel/plugin-proposal-optional-chaining"),
+      require.resolve("@babel/plugin-proposal-nullish-coalescing-operator"),
     ].filter(Boolean),
   };
 });
