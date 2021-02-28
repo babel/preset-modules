@@ -139,7 +139,7 @@ With [Terser's Node API](https://github.com/terser/terser#minify-options):
 
 ```js
 terser.minify({
-  ecma: 8,
+  ecma: 2017,
   safari10: true
 })
 ```
@@ -147,7 +147,7 @@ terser.minify({
 With [Terser CLI](https://npm.im/terser):
 
 ```sh
-terser --ecma 8 --safari10 ...
+terser --ecma 2017 --safari10 ...
 ```
 
 With [terser-webpack-plugin](https://webpack.js.org/plugins/terser-webpack-plugin/):
@@ -158,7 +158,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          ecma: 8,
+          ecma: 2017,
           safari10: true
         }
       })
