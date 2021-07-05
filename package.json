@@ -15,6 +15,10 @@
     "watch:test": "jest --watch",
     "watch:build": "npm run -s build -- -w"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/babel/preset-modules.git"
+  },
   "keywords": [
     "babel",
     "preset",
