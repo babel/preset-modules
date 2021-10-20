@@ -55,7 +55,7 @@ export default ({ types: t }) => ({
       // We replace all expressions with `0` ensure Strings has the same shape.
       //   identity`a${0}`
       const template = t.taggedTemplateExpression(
-        identity,
+        t.cloneNode(identity),
         t.templateLiteral(
           path.node.quasi.quasis,
           expressions.map(() => t.numericLiteral(0))
@@ -72,7 +72,7 @@ export default ({ types: t }) => ({
       const inlineCache = t.logicalExpression(
         "||",
         ident,
-        t.assignmentExpression("=", ident, template)
+        t.assignmentExpression("=", t.cloneNode(ident), template)
       );
 
       // The original tag function becomes a plain function call.
