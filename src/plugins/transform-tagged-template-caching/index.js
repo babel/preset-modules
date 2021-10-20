@@ -23,7 +23,7 @@ export default ({ types: t }) => ({
       // tagged templates we've already dealt with
       let processed = state.get("processed");
       if (!processed) {
-        processed = new Map();
+        processed = new WeakSet();
         state.set("processed", processed);
       }
 
@@ -61,7 +61,7 @@ export default ({ types: t }) => ({
           expressions.map(() => t.numericLiteral(0))
         )
       );
-      processed.set(template, true);
+      processed.add(template);
 
       // Install an inline cache at the callsite using the global variable:
       //   _t || (_t = identity`a${0}`)
