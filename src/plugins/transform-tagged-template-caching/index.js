@@ -23,7 +23,7 @@ export default ({ types: t }) => ({
       // tagged templates we've already dealt with
       let processed = state.get("processed");
       if (!processed) {
-        processed = new Map();
+        processed = new WeakSet();
         state.set("processed", processed);
       }
 
@@ -55,13 +55,13 @@ export default ({ types: t }) => ({
       // We replace all expressions with `0` ensure Strings has the same shape.
       //   identity`a${0}`
       const template = t.taggedTemplateExpression(
-        identity,
+        t.cloneNode(identity),
         t.templateLiteral(
           path.node.quasi.quasis,
           expressions.map(() => t.numericLiteral(0))
         )
       );
-      processed.set(template, true);
+      processed.add(template);
 
       // Install an inline cache at the callsite using the global variable:
       //   _t || (_t = identity`a${0}`)
@@ -72,7 +72,7 @@ export default ({ types: t }) => ({
       const inlineCache = t.logicalExpression(
         "||",
         ident,
-        t.assignmentExpression("=", ident, template)
+        t.assignmentExpression("=", t.cloneNode(ident), template)
       );
 
       // The original tag function becomes a plain function call.
