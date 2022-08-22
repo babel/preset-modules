@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install
-        run: yarn --prefer-offline --frozen-lockfile --non-interactive --silent
+        run: yarn --immutable --silent
       - name: Build
         run: yarn build
       - name: Test
