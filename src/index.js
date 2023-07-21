@@ -21,10 +21,6 @@ export default declare((api, opts) => {
       path.resolve(__dirname, "./plugins/transform-async-arrows-in-class"),
       !loose &&
         path.resolve(__dirname, "./plugins/transform-edge-function-name"),
-
-      // Proposals
-      require.resolve("@babel/plugin-proposal-unicode-property-regex"),
-      require.resolve("@babel/plugin-transform-dotall-regex"),
     ].filter(Boolean),
   };
 });

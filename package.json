@@ -98,8 +98,6 @@
   },
   "dependencies": {
     "@babel/helper-plugin-utils": "^7.0.0",
-    "@babel/plugin-proposal-unicode-property-regex": "^7.4.4",
-    "@babel/plugin-transform-dotall-regex": "^7.4.4",
     "@babel/types": "^7.4.4",
     "esutils": "^2.0.2"
   }
