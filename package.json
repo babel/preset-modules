@@ -1,6 +1,6 @@
 {
   "name": "@babel/preset-modules",
-  "version": "0.1.6",
+  "version": "0.1.6-no-external-plugins",
   "description": "A Babel preset that targets modern browsers by fixing engine bugs.",
   "main": "lib/index.js",
   "license": "MIT",
