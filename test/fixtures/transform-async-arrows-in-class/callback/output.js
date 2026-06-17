@@ -4,5 +4,4 @@ class Foo {
       return await 1;
     });
   }
-
 }

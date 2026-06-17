@@ -7,23 +7,19 @@ a;
   let _c;
 }
 let c;
-
 for (;;) {
   let _c2;
 }
-
 () => {
   let c;
   {
     let _c3;
-
     let d;
     {
       let _c4;
     }
   }
 };
-
 {
   const {
     a: _a2 = 1,
@@ -34,7 +30,6 @@ for (;;) {
 {
   let d;
 }
-
 (function () {
   try {
     {
