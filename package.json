@@ -87,7 +87,7 @@
     "gzip-size": "^5.1.1",
     "if-env": "^1.0.4",
     "jest": "^24.8.0",
-    "karmatic": "^1.4.0",
+    "karmatic": "^2.1.0",
     "prettier": "^1.19.1",
     "pretty-bytes": "^5.2.0",
     "rollup": "^1.16.3",
