@@ -2,7 +2,7 @@ import presetModern from "../lib/index.js";
 
 describe("@babel/preset-modern", () => {
   describe("smoke test", () => {
-    it("should assert Babel 7", () => {
+    it("should assert Babel 8", () => {
       expect(presetModern).toEqual(expect.any(Function));
       const assertVersion = jest.fn();
       presetModern(
@@ -11,7 +11,7 @@ describe("@babel/preset-modern", () => {
         },
         {}
       );
-      expect(assertVersion).toHaveBeenCalledWith(7);
+      expect(assertVersion).toHaveBeenCalledWith("^8.0.0");
     });
 
     it("should return a configuration object with plugins", () => {

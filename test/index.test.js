@@ -26,7 +26,7 @@ function babelPretty(code) {
 }
 
 describe("@babel/preset-modules", () => {
-  it("should assert Babel 7", () => {
+  it("should assert Babel 8", () => {
     expect(preset).toEqual(expect.any(Function));
     const assertVersion = jest.fn();
     preset(
@@ -35,7 +35,7 @@ describe("@babel/preset-modules", () => {
       },
       {}
     );
-    expect(assertVersion).toHaveBeenCalledWith(7);
+    expect(assertVersion).toHaveBeenCalledWith("^8.0.0");
   });
 
   it("should return a configuration object with plugins", () => {
