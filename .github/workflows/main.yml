@@ -29,5 +29,7 @@ jobs:
         run: yarn run test:browser
         env:
           CI: true
+          # webpack 4 relies on MD4 hashing, which OpenSSL 3 (Node 17+) rejects
+          NODE_OPTIONS: --openssl-legacy-provider
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
