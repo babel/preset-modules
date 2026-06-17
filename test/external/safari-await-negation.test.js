@@ -1,5 +1,5 @@
-import { transform } from "@babel/core";
-import preset from "../..";
+import { transformSync } from "@babel/core";
+import preset from "../../lib/index.js";
 
 const CONFIG = {
   babelrc: false,
@@ -10,7 +10,7 @@ const CONFIG = {
 };
 
 function babel(code) {
-  return transform(code, CONFIG).code;
+  return transformSync(code, CONFIG).code;
 }
 
 // https://bugs.webkit.org/show_bug.cgi?id=176685

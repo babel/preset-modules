@@ -1,5 +1,5 @@
-import { transform } from "@babel/core";
-import taggedTemplates from "../lib/plugins/transform-tagged-template-caching";
+import { transformSync } from "@babel/core";
+import taggedTemplates from "../lib/plugins/transform-tagged-template-caching/index.js";
 
 const CONFIG = {
   babelrc: false,
@@ -9,7 +9,7 @@ const CONFIG = {
 };
 
 function babel(code) {
-  return transform(code, CONFIG).code;
+  return transformSync(code, CONFIG).code;
 }
 
 describe("@babel/preset-modern transform-tagged-template-caching evaluation", () => {

@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "description": "A Babel preset that targets modern browsers by fixing engine bugs.",
   "main": "lib/index.js",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "start": "concurrently -r 'npm:watch:* -s'",
@@ -43,6 +44,7 @@
     }
   },
   "jest": {
+    "runner": "jest-light-runner",
     "testEnvironment": "node",
     "roots": [
       "src",
@@ -64,19 +66,19 @@
     "Jason Miller <jason@developit.ca>"
   ],
   "peerDependencies": {
-    "@babel/core": "^7.0.0-0 || ^8.0.0-0 <8.0.0"
+    "@babel/core": "^8.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "@babel/helper-fixtures": "^7.6.3",
-    "@babel/helper-plugin-test-runner": "^7.14.5",
-    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
-    "@babel/plugin-transform-react-jsx": "^7.7.0",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/cli": "^8.0.1",
+    "@babel/core": "^8.0.1",
+    "@babel/helper-fixtures": "^8.0.1",
+    "@babel/helper-plugin-test-runner": "^8.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^8.0.1",
+    "@babel/plugin-transform-react-jsx": "^8.0.1",
+    "@babel/preset-env": "^8.0.1",
     "acorn-jsx": "^5.0.1",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-external-helpers": "npm:@babel/plugin-external-helpers@^8.0.1",
     "chalk": "^2.4.2",
     "concurrently": "^4.1.0",
     "eslint": "^6.6.0",
@@ -86,21 +88,25 @@
     "eslint-plugin-prettier": "^3.1.1",
     "gzip-size": "^5.1.1",
     "if-env": "^1.0.4",
-    "jest": "^24.8.0",
+    "jest": "^30.4.2",
+    "jest-light-runner": "^0.7.12",
     "karmatic": "^1.4.0",
     "prettier": "^1.19.1",
     "pretty-bytes": "^5.2.0",
+    "@rollup/plugin-babel": "^5.3.1",
     "rollup": "^1.16.3",
-    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "terser": "^4.0.2",
     "webpack": "^4.35.0"
   },
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.0.0",
-    "@babel/plugin-proposal-unicode-property-regex": "^7.4.4",
-    "@babel/plugin-transform-dotall-regex": "^7.4.4",
-    "@babel/types": "^7.4.4",
+    "@babel/helper-plugin-utils": "^8.0.1",
+    "@babel/plugin-transform-unicode-property-regex": "^8.0.1",
+    "@babel/plugin-transform-dotall-regex": "^8.0.1",
+    "@babel/types": "^8.0.0",
     "esutils": "^2.0.2"
+  },
+  "resolutions": {
+    "chokidar": "npm:@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3"
   }
 }

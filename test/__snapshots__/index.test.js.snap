@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`@babel/preset-modules should pass a smoke test 1`] = `
 "const foo = async (tag, { a: _a = 1 }, { data: { props: _props = 1 } }, ...children) => {

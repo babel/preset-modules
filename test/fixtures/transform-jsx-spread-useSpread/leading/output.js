@@ -1,3 +1,4 @@
-h("div", { ...props,
+h("div", {
+  ...props,
   b: "hi"
 }, "a");

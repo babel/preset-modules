@@ -1,15 +1,19 @@
 import path from "path";
+import { fileURLToPath } from "url";
 import {
   babel,
   readdir,
   readFile,
   compressedSize,
   compareFixturesToPresetEnv,
-} from "./_util";
+} from "./_util.js";
 import chalk from "chalk";
-import preset from "..";
+import preset from "../lib/index.js";
 
-jest.setTimeout(30000);
+const fixturesDir = fileURLToPath(import.meta.resolve("./fixtures/"));
+const browserFixturesDir = fileURLToPath(
+  import.meta.resolve("./browser/fixtures/")
+);
 
 function dedent(strings, ...expr) {
   const s = strings.reduce((acc, s, i) => acc + expr[i - 1] + s);
@@ -22,7 +26,7 @@ function babelPretty(code) {
 }
 
 describe("@babel/preset-modules", () => {
-  it("should assert Babel 7", () => {
+  it("should assert Babel 8", () => {
     expect(preset).toEqual(expect.any(Function));
     const assertVersion = jest.fn();
     preset(
@@ -31,7 +35,7 @@ describe("@babel/preset-modules", () => {
       },
       {}
     );
-    expect(assertVersion).toHaveBeenCalledWith(7);
+    expect(assertVersion).toHaveBeenCalledWith("^8.0.0");
   });
 
   it("should return a configuration object with plugins", () => {
@@ -61,9 +65,9 @@ describe("@babel/preset-modules", () => {
   });
 
   it("should produce minimal output", async () => {
-    for (const f of await readdir(path.join(__dirname, "fixtures"))) {
+    for (const f of await readdir(fixturesDir)) {
       if (!/\.js$/.test(f)) continue;
-      const file = await readFile(path.join(__dirname, "fixtures", f), "utf-8");
+      const file = await readFile(path.join(fixturesDir, f), "utf-8");
       const out = babel(file, { presets: [preset] });
       const sizeBefore = await compressedSize(file);
       const size = await compressedSize(out);
@@ -89,69 +93,35 @@ describe("@babel/preset-modules", () => {
   });
 
   it("should be smaller than preset-env default", async () => {
-    const out = await compareFixturesToPresetEnv(
-      path.join(__dirname, "browser/fixtures"),
-      {
-        compile: ({ file }) => babel(file, { presets: [preset] }),
-        compileEnv: ({ file }) =>
-          babel(file, { presets: ["@babel/preset-env"] }),
-        assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
-      }
-    );
+    const out = await compareFixturesToPresetEnv(browserFixturesDir, {
+      compile: ({ file }) => babel(file, { presets: [preset] }),
+      compileEnv: ({ file }) => babel(file, { presets: ["@babel/preset-env"] }),
+      assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
+    });
     console.log(
       chalk.blueBright(`Compared to @babel/preset-env's default output:`) + out
     );
   });
 
   it("should be smaller than preset-env targets.esmodules", async () => {
-    const out = await compareFixturesToPresetEnv(
-      path.join(__dirname, "browser/fixtures"),
-      {
-        compile: ({ file }) => babel(file, { presets: [preset] }),
-        compileEnv: ({ file }) =>
-          babel(file, {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: { esmodules: true },
-                },
-              ],
+    const out = await compareFixturesToPresetEnv(browserFixturesDir, {
+      compile: ({ file }) => babel(file, { presets: [preset] }),
+      compileEnv: ({ file }) =>
+        babel(file, {
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: { esmodules: true },
+              },
             ],
-          }),
-        assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
-      }
-    );
+          ],
+        }),
+      assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
+    });
     console.log(
       chalk.blueBright(
         `Compared to @babel/preset-env's targets.esmodules output:`
-      ) + out
-    );
-  });
-
-  it("should be smaller than preset-env targets.esmodules in loose mode", async () => {
-    const out = await compareFixturesToPresetEnv(
-      path.join(__dirname, "browser/fixtures"),
-      {
-        compile: ({ file }) => babel(file, { presets: [preset] }),
-        compileEnv: ({ file }) =>
-          babel(file, {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: { esmodules: true },
-                  loose: true,
-                },
-              ],
-            ],
-          }),
-        assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
-      }
-    );
-    console.log(
-      chalk.blueBright(
-        `Compared to @babel/preset-env's targets.esmodules ${chalk.bold`loose`} output:`
       ) + out
     );
   });

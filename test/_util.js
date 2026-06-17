@@ -1,7 +1,7 @@
 import { promisify } from "util";
 import fs, { mkdir } from "fs";
 import path from "path";
-import { transform } from "@babel/core";
+import { transformSync } from "@babel/core";
 import gzipSize from "gzip-size";
 import terser from "terser";
 import chalk from "chalk";
@@ -23,7 +23,7 @@ export function dent(...args) {
 }
 
 export function babel(code, config) {
-  return transform(code, {
+  return transformSync(code, {
     ...options,
     ...config,
   })
