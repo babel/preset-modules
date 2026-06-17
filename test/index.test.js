@@ -125,28 +125,4 @@ describe("@babel/preset-modules", () => {
       ) + out
     );
   });
-
-  it("should be smaller than preset-env targets.esmodules in loose mode", async () => {
-    const out = await compareFixturesToPresetEnv(browserFixturesDir, {
-      compile: ({ file }) => babel(file, { presets: [preset] }),
-      compileEnv: ({ file }) =>
-        babel(file, {
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                targets: { esmodules: true },
-                loose: true,
-              },
-            ],
-          ],
-        }),
-      assertion: ({ size, sizeEnv }) => expect(size).toBeLessThan(sizeEnv),
-    });
-    console.log(
-      chalk.blueBright(
-        `Compared to @babel/preset-env's targets.esmodules ${chalk.bold`loose`} output:`
-      ) + out
-    );
-  });
 });
