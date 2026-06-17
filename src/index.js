@@ -1,4 +1,3 @@
-import path from "path";
 import { declare } from "@babel/helper-plugin-utils";
 
 /**
@@ -7,22 +6,21 @@ import { declare } from "@babel/helper-plugin-utils";
  * @param {boolean} [options.loose=false] Loose mode skips seldom-needed transforms that increase output size.
  */
 export default declare((api, opts) => {
-  api.assertVersion(7);
+  api.assertVersion("^8.0.0");
 
   const loose = opts.loose === true;
 
   return {
     plugins: [
-      path.resolve(__dirname, "./plugins/transform-edge-default-parameters"),
-      path.resolve(__dirname, "./plugins/transform-tagged-template-caching"),
-      path.resolve(__dirname, "./plugins/transform-jsx-spread"),
-      path.resolve(__dirname, "./plugins/transform-safari-for-shadowing"),
-      path.resolve(__dirname, "./plugins/transform-safari-block-shadowing"),
-      path.resolve(__dirname, "./plugins/transform-async-arrows-in-class"),
-      !loose &&
-        path.resolve(__dirname, "./plugins/transform-edge-function-name"),
-      require.resolve("@babel/plugin-transform-unicode-property-regex"),
-      require.resolve("@babel/plugin-transform-dotall-regex"),
+      import.meta.resolve("./plugins/transform-edge-default-parameters"),
+      import.meta.resolve("./plugins/transform-tagged-template-caching"),
+      import.meta.resolve("./plugins/transform-jsx-spread"),
+      import.meta.resolve("./plugins/transform-safari-for-shadowing"),
+      import.meta.resolve("./plugins/transform-safari-block-shadowing"),
+      import.meta.resolve("./plugins/transform-async-arrows-in-class"),
+      !loose && import.meta.resolve("./plugins/transform-edge-function-name"),
+      import.meta.resolve("@babel/plugin-transform-unicode-property-regex"),
+      import.meta.resolve("@babel/plugin-transform-dotall-regex"),
     ].filter(Boolean),
   };
 });

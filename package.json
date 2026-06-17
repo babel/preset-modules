@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "description": "A Babel preset that targets modern browsers by fixing engine bugs.",
   "main": "lib/index.js",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "start": "concurrently -r 'npm:watch:* -s'",
@@ -43,6 +44,7 @@
     }
   },
   "jest": {
+    "runner": "jest-light-runner",
     "testEnvironment": "node",
     "roots": [
       "src",
@@ -76,7 +78,6 @@
     "@babel/preset-env": "^8.0.1",
     "acorn-jsx": "^5.0.1",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-add-module-exports": "^1.0.2",
     "chalk": "^2.4.2",
     "concurrently": "^4.1.0",
     "eslint": "^6.6.0",
@@ -86,7 +87,8 @@
     "eslint-plugin-prettier": "^3.1.1",
     "gzip-size": "^5.1.1",
     "if-env": "^1.0.4",
-    "jest": "^24.8.0",
+    "jest": "^30.4.2",
+    "jest-light-runner": "^0.7.12",
     "karmatic": "^1.4.0",
     "prettier": "^1.19.1",
     "pretty-bytes": "^5.2.0",
@@ -102,5 +104,8 @@
     "@babel/plugin-transform-dotall-regex": "^8.0.1",
     "@babel/types": "^8.0.0",
     "esutils": "^2.0.2"
+  },
+  "resolutions": {
+    "fsevents": "^2.3.3"
   }
 }
