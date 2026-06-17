@@ -1,5 +1,5 @@
 import { transform } from "@babel/core";
-import taggedTemplates from "../lib/plugins/transform-tagged-template-caching";
+import taggedTemplates from "../lib/plugins/transform-tagged-template-caching/index.js";
 
 const CONFIG = {
   babelrc: false,

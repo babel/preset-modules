@@ -1,5 +1,5 @@
 import { transform } from "@babel/core";
-import preset from "../..";
+import preset from "../../lib/index.js";
 
 const CONFIG = {
   babelrc: false,

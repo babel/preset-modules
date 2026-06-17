@@ -6,12 +6,14 @@ import babel from "rollup-plugin-babel";
 import nodeResolve from "rollup-plugin-node-resolve";
 import chalk from "chalk";
 import bytes from "pretty-bytes";
-import preset from "..";
-import { compressedSize, writeFile, mkdirp } from "./_util";
+import { createRequire } from "module";
+import { fileURLToPath } from "url";
+import preset from "../lib/index.js";
+import { compressedSize, writeFile, mkdirp } from "./_util.js";
 
-jest.setTimeout(30000);
+const require = createRequire(import.meta.url);
 
-const FIXTURES = path.resolve(__dirname, "integration");
+const FIXTURES = fileURLToPath(import.meta.resolve("./integration/"));
 
 async function writeBeautified(filename, code) {
   await writeFile(
