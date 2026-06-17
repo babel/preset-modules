@@ -1,6 +1,6 @@
 {
   "name": "@babel/preset-modules",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "A Babel preset that targets modern browsers by fixing engine bugs.",
   "main": "lib/index.js",
   "type": "module",
@@ -76,6 +76,7 @@
     "@babel/plugin-transform-modules-commonjs": "^8.0.1",
     "@babel/plugin-transform-react-jsx": "^8.0.1",
     "@babel/preset-env": "^8.0.1",
+    "@rollup/plugin-babel": "^5.3.1",
     "acorn-jsx": "^5.0.1",
     "babel-eslint": "^10.0.3",
     "babel-plugin-external-helpers": "npm:@babel/plugin-external-helpers@^8.0.1",
@@ -93,7 +94,6 @@
     "karmatic": "^1.4.0",
     "prettier": "^1.19.1",
     "pretty-bytes": "^5.2.0",
-    "@rollup/plugin-babel": "^5.3.1",
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "terser": "^4.0.2",
@@ -101,8 +101,8 @@
   },
   "dependencies": {
     "@babel/helper-plugin-utils": "^8.0.1",
-    "@babel/plugin-transform-unicode-property-regex": "^8.0.1",
     "@babel/plugin-transform-dotall-regex": "^8.0.1",
+    "@babel/plugin-transform-unicode-property-regex": "^8.0.1",
     "@babel/types": "^8.0.0",
     "esutils": "^2.0.2"
   },
