@@ -1,4 +1,9 @@
 import { declare } from "@babel/helper-plugin-utils";
+import { fileURLToPath } from "url";
+
+// import.meta.resolve returns a file:// URL, but Babel resolves plugins with
+// require.resolve when transforming synchronously, which only accepts paths.
+const resolve = specifier => fileURLToPath(import.meta.resolve(specifier));
 
 /**
  * @babel/preset-modules produces clean, minimal output for ES Modules-supporting browsers.
@@ -12,15 +17,15 @@ export default declare((api, opts) => {
 
   return {
     plugins: [
-      import.meta.resolve("./plugins/transform-edge-default-parameters"),
-      import.meta.resolve("./plugins/transform-tagged-template-caching"),
-      import.meta.resolve("./plugins/transform-jsx-spread"),
-      import.meta.resolve("./plugins/transform-safari-for-shadowing"),
-      import.meta.resolve("./plugins/transform-safari-block-shadowing"),
-      import.meta.resolve("./plugins/transform-async-arrows-in-class"),
-      !loose && import.meta.resolve("./plugins/transform-edge-function-name"),
-      import.meta.resolve("@babel/plugin-transform-unicode-property-regex"),
-      import.meta.resolve("@babel/plugin-transform-dotall-regex"),
+      resolve("./plugins/transform-edge-default-parameters/index.js"),
+      resolve("./plugins/transform-tagged-template-caching/index.js"),
+      resolve("./plugins/transform-jsx-spread/index.js"),
+      resolve("./plugins/transform-safari-for-shadowing/index.js"),
+      resolve("./plugins/transform-safari-block-shadowing/index.js"),
+      resolve("./plugins/transform-async-arrows-in-class/index.js"),
+      !loose && resolve("./plugins/transform-edge-function-name/index.js"),
+      resolve("@babel/plugin-transform-unicode-property-regex"),
+      resolve("@babel/plugin-transform-dotall-regex"),
     ].filter(Boolean),
   };
 });
