@@ -1,2 +1,1 @@
-h("div", { ...props
-});
+h("div", props);
