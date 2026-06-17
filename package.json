@@ -107,6 +107,6 @@
     "esutils": "^2.0.2"
   },
   "resolutions": {
-    "fsevents": "^2.3.3"
+    "chokidar": "npm:@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3"
   }
 }
