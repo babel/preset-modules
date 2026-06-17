@@ -78,6 +78,7 @@
     "@babel/preset-env": "^8.0.1",
     "acorn-jsx": "^5.0.1",
     "babel-eslint": "^10.0.3",
+    "babel-plugin-external-helpers": "npm:@babel/plugin-external-helpers@^8.0.1",
     "chalk": "^2.4.2",
     "concurrently": "^4.1.0",
     "eslint": "^6.6.0",
@@ -92,8 +93,8 @@
     "karmatic": "^1.4.0",
     "prettier": "^1.19.1",
     "pretty-bytes": "^5.2.0",
+    "@rollup/plugin-babel": "^5.3.1",
     "rollup": "^1.16.3",
-    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "terser": "^4.0.2",
     "webpack": "^4.35.0"
